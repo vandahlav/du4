@@ -1,7 +1,10 @@
 import argparse
 import json
-from funkce_du4 import otevreni_souboru, pristup_k_souboru, je_cislo
+from funkce_du4 import otevreni_souboru, pristup_k_souboru, je_cislo, vzdalenost
+from abc import ABC, abstractclassmethod
+from classes import LineString, Segment, Point
 
+#načtení souboru
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--inputfile", help="Název vstupního souboru", type = otevreni_souboru)
 parser.add_argument("-l", "--maxlenght", help="Maximální délka", type = je_cislo)
@@ -9,8 +12,4 @@ parser.add_argument("-o", "--outputfile", help="Název výstupního souboru", ty
 
 arguments = parser.parse_args()
 vstup = arguments.inputfile
-
-for feature in vstup["features"]:
-    promena = feature["geometry"]["coordinates"]
-    print(promena)
-
+max_lenght = arguments.maxlenght

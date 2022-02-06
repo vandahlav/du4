@@ -20,6 +20,7 @@ def otevreni_souboru(soubor):
 def pristup_k_souboru(soubor):
     try:
         pass
+        #SEM POTOM DÁT, ŽE TO ZAPISUJU
     except PermissionError:
         print("Program nemá přístup k zápisu výstupních souborů.")
 
@@ -28,7 +29,7 @@ def je_cislo(n):
     try:
         cislo = int(n)
     except ValueError:
-        print("Nebylo zadáno číslo, program skončí.")
+        print("Chybně zadána maximální délka segmentu. Program končí.")
         quit()
     if cislo < 0:
         print("Bylo zadáno záporné číslo, program skončí.")
