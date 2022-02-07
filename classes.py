@@ -2,9 +2,11 @@ from math import sqrt
 
 #vytvoření třídy polyline
 class LineString():
-    def __init__(self, vstup): 
+    def __init__(self, vstup = None): 
         self.linestring = []
         self.vstup = vstup
+        if vstup is not None:
+            self.vstupni_data
         
     #tvorba linestring - procházení dat? rozdělení linestring na segmenty?
     def vstupni_data (self):
@@ -27,9 +29,11 @@ class LineString():
     #funkce pro zápis nových dat
     def zapis (self):
         zapisuju_sem = []
+        a = True
         for segment in self.linestring:
-        #UPRAVIT - NEBUDE SE TO TAKHLE PŘEPISOVAT?
-            zapisuju_sem.append([segment.bod1.x, segment.bod1.y])
+            if not a:
+                zapisuju_sem.append([segment.bod1.x, segment.bod1.y])
+                a = not a
             zapisuju_sem.append([segment.bod2.x, segment.bod2.y])
         self.vstup ["geometry"]["coordinates"] = zapisuju_sem
         return self.vstup 
