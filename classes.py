@@ -2,16 +2,22 @@ from math import sqrt
 
 #vytvoření třídy polyline
 class LineString():
-    def __init__(self, vstup = None): 
+    def __init__(self, data = None): 
         self.linestring = []
-        self.vstup = vstup
-        if vstup is not None:
+        self.data = data
+        if data is not None:
             self.vstupni_data
         
-    #tvorba linestring - procházení dat? rozdělení linestring na segmenty?
+    #procházení dat
     def vstupni_data (self):
-        for bod in self.vstup["features"]["coordinates"]:
+        segment = Segment()
+        for bod in self.data["geometry"]["coordinates"]:
             point = Point(bod[0], bod[1])
+            if segment.bod1 is not None:
+                segment.bod2 = point
+                self.nove_segmenty(segment)
+            elif segment.bod1 is None:
+                segment.bod1 = point
 
     #doplnění linestring o nově rozdělené segmenty
     def nove_segmenty (self, novy_segment):
@@ -20,7 +26,7 @@ class LineString():
     #rozělení dlouhého segmentu
     def divide_long_segments(self, max_length):
         new_linestring = LineString()
-        new_linestring.vstup = self.vstup
+        new_linestring.data = self.data 
         for line in self.linestring:
             linestring_rozdeleni = line.divide(max_length)
             self.linestring.append(new_linestring)
@@ -28,15 +34,12 @@ class LineString():
 
     #funkce pro zápis nových dat
     def zapis (self):
-        zapisuju_sem = []
-        a = True
+        coordinates = []
         for segment in self.linestring:
-            if not a:
-                zapisuju_sem.append([segment.bod1.x, segment.bod1.y])
-                a = not a
-            zapisuju_sem.append([segment.bod2.x, segment.bod2.y])
-        self.vstup ["geometry"]["coordinates"] = zapisuju_sem
-        return self.vstup 
+            coordinates.append([segment.bod1.x, segment.bod1.y])
+        self.linestring [-1] = coordinates.append([segment.bod2.x, segment.bod2.y])
+        self.data ["geometry"]["coordinates"] = coordinates
+        return self.data 
 
 #vytvoření třídy segmentů
 class Segment():
@@ -51,17 +54,20 @@ class Segment():
 
     #výpočet půlícího bodu v případě příliš dlouhého segmentu
     def middle_point (self):
-        self.middle_point = Point(((self.bod1.x + self.bod2.x)/2), ((self.bod1.y + self.bod2.y)/2))
+        middle_point = Point(((self.bod1.x + self.bod2.x)/2), ((self.bod1.y + self.bod2.y)/2))
+        return middle_point
 
     #rozdělení příliš dlouhých segmentů
     def divide(self, max_length):
         linestring = LineString()
         if self.delka() >= max_length:
             self.middle_point()
+
             #vytváření nových segmentů
             linestring.nove_segmenty(Segment(self.bod1, self.middle_point))
             linestring.nove_segmenty(Segment(self.middle_point, self.bod2))
             return linestring.divide_long_segments(max_length)
+
         #vytvoření linestring z jednotlivých segmentů
         linestring.nove_segmenty(self)
         return linestring
