@@ -1,5 +1,6 @@
 import json
 from json.decoder import JSONDecodeError
+from classes import LineString
 
 data = {}
 
@@ -25,7 +26,7 @@ def vystupni_soubor(output_soubor):
         with open(output_soubor, "w", encoding="utf-8") as zapis:  
             new_coords = []
             for line in  output_soubor:
-                new_coords.append(line.zapis())
+                new_coords.append(line.LineString().zapis())
             data["feature"] = new_coords
             json.dump(output_soubor, zapis)
     except PermissionError:

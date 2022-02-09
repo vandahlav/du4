@@ -10,14 +10,14 @@ class LineString():
         
     #procházení dat
     def vstupni_data (self):
-        segment = Segment()
+        segment_vstup = Segment()
         for bod in self.data["geometry"]["coordinates"]:
             point = Point(bod[0], bod[1])
-            if segment.bod1 is not None:
-                segment.bod2 = point
-                self.nove_segmenty(segment)
-            elif segment.bod1 is None:
-                segment.bod1 = point
+            if segment_vstup.bod1 is not None:
+                segment_vstup.bod2 = point
+                self.nove_segmenty(segment_vstup)
+            elif segment_vstup.bod1 is None:
+                segment_vstup.bod1 = point
 
     #doplnění linestring o nově rozdělené segmenty
     def nove_segmenty (self, novy_segment):
