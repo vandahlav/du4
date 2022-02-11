@@ -11,14 +11,16 @@ parser.add_argument("-o", "--outputfile", help="Zadejte název výstupního soub
 arguments = parser.parse_args()
 
 max_length = arguments.maxlength
+output_file = arguments.outputfile
 
 #načtení suboru
 soubor = otevreni_souboru(arguments.inputfile)
 
 linestring_seznam = []
-for k in soubor:
-    #if k["geometry"]["type"] == "LineString":
-    lomena_linie = LineString(k)
-    linestring_seznam.append(lomena_linie.divide_long_segments(max_length))
+for linie in soubor:
+    #if linie ["geometry"]["type"] == "LineString":
+    linie1 = LineString(linie)
+    linestring_seznam.append(linie1.divide_long_segments(max_length))
 
-vystup = vystupni_soubor(arguments.outputfile)
+#zápis výstupního souboru
+output = vystupni_soubor(linestring_seznam, output_file)

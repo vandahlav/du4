@@ -21,14 +21,15 @@ def otevreni_souboru(vstupni_soubor):
         quit()
 
 #funkce zápis do výstupního souboru
-def vystupni_soubor(output_soubor):
+def vystupni_soubor(linestring, output_soubor):
     try: 
-        with open(output_soubor, "w", encoding="utf-8") as zapis:  
+        with open(output_soubor, "w", encoding="utf-8") as vystup:  
             new_coords = []
             for line in  output_soubor:
-                new_coords.append(line.LineString().zapis())
+                line = LineString(linestring)
+                new_coords.append(line.zapis())
             data["feature"] = new_coords
-            json.dump(output_soubor, zapis)
+            json.dump(output_soubor, vystup)
     except PermissionError:
         print("Program nemá přístup k zápisu výstupních souborů.")
         quit()

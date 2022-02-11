@@ -28,7 +28,8 @@ class LineString():
         new_linestring = LineString()
         new_linestring.data = self.data 
         for line in self.linestring:
-            linestring_rozdeleni = line.divide(max_length)
+            new_linestring = line.divide(max_length)
+            ###linestring_rozdeleni = line.divide(max_length)
             self.linestring.append(new_linestring)
         return new_linestring
 
@@ -37,7 +38,7 @@ class LineString():
         coordinates = []
         for segment in self.linestring:
             coordinates.append([segment.bod1.x, segment.bod1.y])
-        self.linestring [-1] = coordinates.append([segment.bod2.x, segment.bod2.y])
+        coordinates.append([self.linestring[-1].bod2.x, self.linestring[-1].bod2.y])
         self.data ["geometry"]["coordinates"] = coordinates
         return self.data 
 
