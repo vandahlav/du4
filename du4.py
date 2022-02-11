@@ -12,15 +12,17 @@ arguments = parser.parse_args()
 
 max_length = arguments.maxlength
 output_file = arguments.outputfile
+input_file = arguments.inputfile
 
 #načtení suboru
-soubor = otevreni_souboru(arguments.inputfile)
+soubor = otevreni_souboru(input_file)
 
-linestring_seznam = []
-for linie in soubor:
-    #if linie ["geometry"]["type"] == "LineString":
-    linie1 = LineString(linie)
-    linestring_seznam.append(linie1.divide_long_segments(max_length))
+#procházení souboru typu LineString
+for line in soubor["features"]:
+    if line ["geometry"]["type"] == "LineString":
+        line_p = LineString(line["geometry"]["coordinates"])
+        line_p.divide_long_segments(max_length)
+        line["geometry"]["coordinates"] = line_p.zapis()
 
 #zápis výstupního souboru
-output = vystupni_soubor(linestring_seznam, output_file)
+output = vystupni_soubor(soubor, output_file)
