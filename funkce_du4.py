@@ -1,8 +1,5 @@
 import json
 from json.decoder import JSONDecodeError
-from classes import LineString
-
-data = {}
 
 #funkce pro načtení souboru
 def otevreni_souboru(vstupni_soubor):
@@ -21,15 +18,10 @@ def otevreni_souboru(vstupni_soubor):
         quit()
 
 #funkce zápis do výstupního souboru
-def vystupni_soubor(linestring, output_soubor):
+def vystupni_soubor(data ,output_soubor):
     try: 
         with open(output_soubor, "w", encoding="utf-8") as vystup:  
-            new_coords = []
-            for line in  output_soubor:
-                line = LineString(linestring)
-                new_coords.append(line.zapis())
-            data["feature"] = new_coords
-            json.dump(output_soubor, vystup)
+            json.dump(data, vystup)
     except PermissionError:
         print("Program nemá přístup k zápisu výstupních souborů.")
         quit()
